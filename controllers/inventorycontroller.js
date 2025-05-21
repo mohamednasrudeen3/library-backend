@@ -21,6 +21,7 @@ exports.checkLowStock = async (req, res) => {
 };
 
 // Add new acquisition
+
 exports.addNewAcquisition = async (req, res) => {
   try {
     const { title, author, category, stock } = req.body;

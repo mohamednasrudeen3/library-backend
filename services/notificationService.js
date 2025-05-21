@@ -16,7 +16,7 @@ const sendNotification = async () => {
     const overdueLoans = await Loan.find({ dueDate: { $lt: new Date() }, returned: false }).populate('user book');
     for (const loan of overdueLoans) {
       const mailOptions = {
-        from: 'galanimeghji@gmail.com',
+        from: 'mohamednasrudeen21@gmail.com',
         to: loan.user.email,
         subject: 'Overdue Book Notification',
         text: `Dear ${loan.user.name},\n\nYour borrowed book "${loan.book.title}" is overdue. Please return it as soon as possible.\n\nThank you!`,
