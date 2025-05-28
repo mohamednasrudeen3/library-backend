@@ -26,7 +26,9 @@ router.post(
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
+    const role=req.body.role;
     console.log('Request body:', req.body);
+ 
 
     try {
       let user = await User.findOne({ email });
@@ -39,6 +41,7 @@ router.post(
         name,
         email,
         password,
+        role
       });
 
       await user.save();
@@ -52,7 +55,14 @@ router.post(
 
       const token=jwt.sign(payload, 'your_jwt_secret', { expiresIn: '1h' }, (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.json({ token ,
+           user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+      }
+        });
         console.log(token)
       });
       res.cookie(token)
@@ -98,7 +108,14 @@ router.post(
       const token=jwt.sign(payload, 'your_jwt_secret', { expiresIn: '1h' }, (err, token) => {
         if (err) throw err;
         console.log("Authroutes: ",token)
-        res.json({ token });
+        res.json({ token,
+           user: {
+              id: user._id,
+              name: user.name,
+              email: user.email,
+              role: user.role,
+              }
+         });
       });
       res.cookie(token)
     } catch (err) {

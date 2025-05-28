@@ -6,6 +6,8 @@ const { sendNotification } = require('./services/notificationService');
 const reportRoutes=require("./routes/reportRoutes")
 const exportRoutes=require("./routes/exportRoutes")
 const authRoutes = require('./routes/authRoutes');
+const profileRoutes = require('./routes/profileRoutes');
+
 // Load environment variables
 dotenv.config();
 
@@ -51,6 +53,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
+app.use('/uploads', express.static('uploads'));
 // Routes
 app.use('/api/books', require('./routes/bookRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
@@ -59,6 +62,7 @@ app.use('/api/inventory', require('./routes/inventoryRoutes'));
 app.use('/api/reports', reportRoutes);
 app.use('/api/exports', exportRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/profile', profileRoutes);
 
 const PORT = process.env.PORT || 5000;
 

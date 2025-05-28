@@ -1,18 +1,39 @@
 const Book = require('../models/book');
 
 // Add a new book
+// exports.addBook = async (req, res) => {
+//   console.log('Add book request received:', req.body); // Add logging here
+//   try {
+//     const { title, author, category, stock } = req.body;
+//     const newBook = new Book({ title, author, category, stock });
+//     await newBook.save();
+//     res.status(201).json(newBook);
+//   } catch (error) {
+//     console.error('Error adding book:', error); // Add logging here
+//     res.status(500).json({ message: 'Error adding book' });
+//   }
+// };
+
 exports.addBook = async (req, res) => {
-  console.log('Add book request received:', req.body); // Add logging here
+  console.log('Add book request received:', req.body);
+
   try {
     const { title, author, category, stock } = req.body;
+
+    if (!title || !author || !category || stock == null) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
     const newBook = new Book({ title, author, category, stock });
     await newBook.save();
+
     res.status(201).json(newBook);
   } catch (error) {
-    console.error('Error adding book:', error); // Add logging here
-    res.status(500).json({ message: 'Error adding book' });
+    console.error('Error adding book:', error.message); // ✅ Add this
+    res.status(500).json({ message: 'Error adding book', error: error.message });
   }
 };
+
 // Get all books
 exports.getBooks = async (req, res) => {
   try {
